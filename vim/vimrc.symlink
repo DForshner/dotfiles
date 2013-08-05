@@ -1,4 +1,200 @@
+" Ref: https://github.com/joelhooks/dotfiles/blob/master/.vim/vimrc
+
+" -------------------------- Vundle config -----------------------
+
+set nocompatible               " be improved
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+" very nice file browser
+Bundle 'scrooloose/nerdtree'
+
+" some markdown support
+Bundle 'https://github.com/plasticboy/vim-markdown.git'
+
+" jump around documents
+Bundle 'Lokaltog/vim-easymotion'
+
+" path searching
+Bundle 'git://git.wincent.com/command-t.git'
+
+" formatting for js
+Bundle "pangloss/vim-javascript"
+
+" more js syntax options
+Bundle 'maksimr/vim-jsbeautify'
+
+" pretty sweet linting/error checking. Works on save
+Bundle 'https://github.com/scrooloose/syntastic.git'
+
+" My personal favorite 'everywhere' theme. 
+Bundle 'd11wtq/tomorrow-theme-vim'
+
+filetype plugin indent on     " required!
+
+" -------------------------- General -----------------------
+
+" Set to use 2 spaces for tab
+:set tabstop=2
+:set shiftwidth=2
+:set expandtab
+
+" Set the text width
+:set textwidth=80
+
+"
+set smarttab
+
+"
+set smartindent
+
+"
+set ruler
+
+set ttyfast
+
+set autoread
+
+set cursorline!
+
+" Forget being compatible with good ol' vi 
+set nocompatible
+
+" Get that filetype stuff happening 
+filetype on 
+filetype plugin on 
+filetype indent on
+
+" Turn on that syntax highlighting 
 syntax on
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+" Why is this not a default 
+set hidden
+
+" Don't update the display while executing macros 
+set lazyredraw
+
+" At least let yourself know what mode you're in 
+set showmode
+
+" Enable enhanced command-line completion. Presumes you have compiled 
+" with +wildmenu.  See :help 'wildmenu' 
+set wildmenu
+
+" Set the serach scan to wrap around the file
+set wrapscan
+
+"Set the forward slash to be slash of note.
+set shellslash
+
+" Allow backspce over indent, eol and the start of an insert
+set backspace=2
+
+" Hide mouse while typing
+set mousehide
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+
+" Remember info about open buffers on close
+set viminfo^=%
+
+" Will allow you to use :w!! to write to a file using sudo if you forgot to sudo
+" vim file (it will prompt for sudo password when writing)
+" http://stackoverflow.com/questions/95072/what-are-your-favorite-vim-tricks/96492#96492
+cmap w!! %!sudo tee > /dev/null %
+
+" Reload changes to .vimrc automatically
+autocmd BufWritePost  ~/.vimrc source ~/.vimrc
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set timeoutlen=500
+
+" For regular expressions turn magic on
+set magic
+
+" Starting from vim 7.3 undo can be persisted across sessions
+" http://www.reddit.com/r/vim/comments/kz84u/what_are_some_simple_yet_mindblowing_tweaks_to/c2onmqe
+if has("persistent_undo")
+    set undodir=~/.vim/undodir
+    set undofile
+endif
+
+" Makes search act like search in modern browsers
+set incsearch
+
+" -------------------------- Visual -----------------------
+
+try
+  color Tomorrow-Night-Bright
+catch
+endtry
+
+" Highlight search results
+set hlsearch
+
+" Show matching brackets when text indicator is over them
+set showmatch
+
+" How many tenths of a second to blink when matching brackets
+set matchtime=2
+
+" Visualize tabs, trailing whitespaces and funny characters
+" http://www.reddit.com/r/programming/comments/9wlb7/proggitors_do_you_like_the_idea_of_indented/c0esam1
+" https://wincent.com/blog/making-vim-highlight-suspicious-characters
+set list
+set listchars=nbsp:¬,tab:»·,trail:·
+
+hi User1 ctermfg=196 guifg=#eea040 guibg=#222222
+hi User2 ctermfg=75 guifg=#dd3333 guibg=#222222
+hi User3 guifg=#ff66ff guibg=#222222
+hi User4 ctermfg=239 guifg=#a0ee40 guibg=#222222
+hi User5 guifg=#eeee40 guibg=#222222
+
+" Statusline
+" https://github.com/pengwynn/dotfiles/blob/master/vim/vimrc.symlink#L160
+set statusline=                                     " Override default
+" set statusline+=%1*%{fugitive#statusline()[4:-2]}%* " Show fugitive git info
+set statusline+=%2*\ %f\ %m\ %r%*                   " Show filename/path
+set statusline+=%3*%=%*                             " Set right-side status info after this line
+set statusline+=%4*%l/%L:%v%*                       " Set <line number>/<total lines>:<column>
+set statusline+=%5*\ %*                             " Set ending space
+
+" -------------------------- Mapping -----------------------
+
+" Let's make it easy to edit this file (mnemonic for the key sequence is 
+" 'e'dit 'v'imrc) 
+nmap <silent> ,ev :e $MYVIMRC<cr>
+
+" And to source this file as well (mnemonic for the key sequence is 
+" 's'ource 'v'imrc) 
+nmap <silent> ,sv :so $MYVIMRC<cr>
+" Setup retabbing on a source file
+nmap ,rr :1,$retab
+
+" cd to the dir contaning the file in the buffer
+nmap ,cd :lcd %:h
+
+" Make the directory that contains the file in the current buffer
+nmap ,md :!mkdir -p %:p:h
+
+" Save and run current file
+map <silent> <F5> <esc>:w<CR><esc>:!./%<CR>
+
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
