@@ -34,6 +34,9 @@ Bundle 'https://github.com/scrooloose/syntastic.git'
 " My personal favorite 'everywhere' theme. 
 Bundle 'd11wtq/tomorrow-theme-vim'
 
+" Jinja Template Highlighting
+Bundle 'Jinja'
+
 filetype plugin indent on     " required!
 
 " -------------------------- General -----------------------
