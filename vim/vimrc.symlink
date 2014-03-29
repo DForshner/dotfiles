@@ -37,6 +37,9 @@ Bundle 'd11wtq/tomorrow-theme-vim'
 " Jinja Template Highlighting
 Bundle 'Jinja'
 
+" Pylint (code linter) plugin
+Bundle "pylint.vim"
+
 filetype plugin indent on     " required!
 
 " -------------------------- General -----------------------
