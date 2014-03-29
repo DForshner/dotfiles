@@ -6,7 +6,7 @@
         name = DForshner
 	email = DForshner@server846.fake
 [credential]
-	helper = cache --timout=3600 
+	helper = cache --timeout=3600 
 [alias]
         co = checkout
         promote = !$ZSH/bin/git-promote
