@@ -4,61 +4,64 @@
 
 set nocompatible               " be improved
 filetype off                   " required!
+                                                                                
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+Plugin 'gmarik/Vundle.vim'
 
-Bundle 'gmarik/vundle'
+" Go development plugin
+Plugin 'fatih/vim-go'
 
-" very nice file browser
-Bundle 'scrooloose/nerdtree'
+" File browser
+Plugin 'scrooloose/nerdtree'
 
-" some markdown support
-Bundle 'https://github.com/plasticboy/vim-markdown.git'
+" Autocompletion
+Plugin 'Valloric/YouCompleteMe'
 
-" jump around documents
-Bundle 'Lokaltog/vim-easymotion'
+" Tag bar
+Plugin 'majutsushi/tagbar'
+
+" Theme
+Plugin 'd11wtq/tomorrow-theme-vim'
 
 " path searching
-Bundle 'git://git.wincent.com/command-t.git'
+Plugin 'git://git.wincent.com/command-t.git'
 
-" formatting for js
-Bundle "pangloss/vim-javascript"
+" jump around documents
+Plugin 'Lokaltog/vim-easymotion'
 
-" more js syntax options
-Bundle 'maksimr/vim-jsbeautify'
+" lean & mean status/tabline 
+Plugin 'bling/vim-airline'
 
-" pretty sweet linting/error checking. Works on save
-Bundle 'https://github.com/scrooloose/syntastic.git'
+" Bash inside vim
+Plugin 'rosenfeld/conque-term'
 
-" My personal favorite 'everywhere' theme. 
-Bundle 'd11wtq/tomorrow-theme-vim'
-
-" Jinja Template Highlighting
-Bundle 'Jinja'
-
-" Pylint (code linter) plugin
-Bundle "pylint.vim"
-
-filetype plugin indent on     " required!
+" All of your Plugins must be added before the following line
+call vundle#end()             " required
+filetype plugin indent on     " required
 
 " -------------------------- General -----------------------
 
-" Set to use 2 spaces for tab
-:set tabstop=2
-:set shiftwidth=2
-:set expandtab
+set encoding=utf-8  "Set default encoding
 
-" Set the text width
-:set textwidth=80
+set shiftwidth=2    "number of spaces to use in each autoindent step 
+set tabstop=2       "number of spaces for tab
+set softtabstop=2   "number of spaces to skip/insert when <BS>ing or <Tab>ing
+set expandtab       "spaces instead of tabs for better cross-editor compat.
+set smarttab        "use shiftwidth and softtabstop ins/del on <BS> lines.
+set cindent         "recommended setting for automatic C-style indenting
+set autoindent      "automatic identation in non-C files
+set copyindent      "copy previous indenation on autoindenting
 
-"
-set smarttab
+set nowrap          "no wrapping
 
-"
-set smartindent
+set textwidth=80    " Set the text width
 
-"
+set notitle
+
+"set smartindent
+
 set ruler
 
 set ttyfast
@@ -91,10 +94,10 @@ set showmode
 " with +wildmenu.  See :help 'wildmenu' 
 set wildmenu
 
-" Set the serach scan to wrap around the file
+" Set the search scan to wrap around the file
 set wrapscan
 
-"Set the forward slash to be slash of note.
+" Set the forward slash to be slash of note.
 set shellslash
 
 " Allow backspce over indent, eol and the start of an insert
@@ -135,8 +138,9 @@ if has("persistent_undo")
     set undofile
 endif
 
-" Makes search act like search in modern browsers
-set incsearch
+set incsearch   "find the next match as we type the search
+set hlsearch    "highlight search results
+set ignorecase  "ignore case when searching
 
 " -------------------------- Visual -----------------------
 
@@ -144,9 +148,6 @@ try
   color Tomorrow-Night-Bright
 catch
 endtry
-
-" Highlight search results
-set hlsearch
 
 " Show matching brackets when text indicator is over them
 set showmatch
@@ -166,14 +167,63 @@ hi User3 guifg=#ff66ff guibg=#222222
 hi User4 ctermfg=239 guifg=#a0ee40 guibg=#222222
 hi User5 guifg=#eeee40 guibg=#222222
 
+" -------------------------- Statusline -----------------------
 " Statusline
 " https://github.com/pengwynn/dotfiles/blob/master/vim/vimrc.symlink#L160
-set statusline=                                     " Override default
+""set statusline=                                     " Override default
 " set statusline+=%1*%{fugitive#statusline()[4:-2]}%* " Show fugitive git info
-set statusline+=%2*\ %f\ %m\ %r%*                   " Show filename/path
-set statusline+=%3*%=%*                             " Set right-side status info after this line
-set statusline+=%4*%l/%L:%v%*                       " Set <line number>/<total lines>:<column>
-set statusline+=%5*\ %*                             " Set ending space
+""set statusline+=%2*\ %f\ %m\ %r%*                   " Show filename/path
+""set statusline+=%3*%=%*                             " Set right-side status info after this line
+""set statusline+=%4*%l/%L:%v%*                       " Set <line number>/<total lines>:<column>
+""set statusline+=%5*\ %*                             " Set ending space
+
+" -------------------------- Unknown -----------------------
+
+let g:indent_guides_default_mapping=0
+
+" -------------------------- Airline -----------------------
+"let g:airline_theme='bubblegum'
+
+" enable tagbar integration
+let g:airline#extensions#tagbar#enabled= 1
+
+let g:airline#extensions#whitespace#checks=[]
+
+" -------------------------- Gotags - Tagbar -----------------------
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
+
+" -------------------------- NERDTree -----------------------
+nmap <F7> :NERDTreeToggle<CR>
+
+" -------------------------- Tagbar -----------------------
+nmap <F8> :TagbarToggle<CR>
+hi TagbarHighlight term=standout ctermfg=0 ctermbg=11 guifg=Black guibg=Yellow
 
 " -------------------------- Mapping -----------------------
 
